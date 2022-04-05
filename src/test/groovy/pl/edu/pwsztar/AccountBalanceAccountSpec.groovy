@@ -3,7 +3,8 @@ package pl.edu.pwsztar
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class CreateAccountSpec extends Specification {
+class AccountBalanceAccountSpec extends Specification {
+
 
     static BankOperation bank;
 
@@ -12,13 +13,14 @@ class CreateAccountSpec extends Specification {
     }
 
     @Unroll
-    def "should create account number #accountNumber for #user"() {
+    def "get amount for #user"() {
 
-        when: "the account is created"
+        given: "the account is created"
         def number = bank.createAccount()
-        then: "check account number"
-        number == accountNumber
-
+        when: "get amount"
+        def result = bank.accountBalance(accountNumber)
+        then: "check if account exists"
+        result != BankOperation.ACCOUNT_NOT_EXISTS
         where:
         user   | accountNumber
         'John' | 1
@@ -26,4 +28,5 @@ class CreateAccountSpec extends Specification {
         'Mike' | 3
         'Todd' | 4
     }
+
 }
